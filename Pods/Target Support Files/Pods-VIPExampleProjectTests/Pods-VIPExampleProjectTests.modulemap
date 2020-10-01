@@ -1,6 +1,0 @@
-framework module Pods_VIPExampleProjectTests {
-  umbrella header "Pods-VIPExampleProjectTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
