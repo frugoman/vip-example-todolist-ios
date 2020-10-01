@@ -7,27 +7,68 @@
 //
 
 import XCTest
+@testable import VIPExampleProject
 
 class GetTodosInteractorTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testGetTodosSuccessThenCallLoaded() throws {
+        let todos = [TodoItem(title: "Title")]
+        let dataSource = SuccessTodosDataSourceMock(todos)
+        let delegate = GetTodosDelegateMock()
+        let sut = GetTodosUseCase(delegate: delegate, dataSource: dataSource)
+        sut.loadTodos()
+        
+        XCTAssertEqual(try XCTUnwrap(delegate.loaded).count, todos.count)
+        XCTAssertEqual(try XCTUnwrap(delegate.loaded)[0], todos[0])
+        XCTAssertNil(delegate.error)
     }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testGetTodosFailedThenCallError() throws {
+        let error = NSError(domain: "", code: 1, userInfo: nil)
+        let dataSource = FailureTodosDataSourceMock(error)
+        let delegate = GetTodosDelegateMock()
+        let sut = GetTodosUseCase(delegate: delegate, dataSource: dataSource)
+        sut.loadTodos()
+        
+        XCTAssertNil(delegate.loaded)
+        XCTAssertNotNil(delegate.error)
     }
+}
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+class GetTodosDelegateMock: GetTodosDelegate {
+    
+    var loaded: [TodoItem]?
+    var error: Error?
+    
+    func todosLoaded(todos: [TodoItem]) {
+        loaded = todos
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func todosLoadFailed(withError error: Error) {
+        self.error = error
     }
+}
 
+class SuccessTodosDataSourceMock: TodosDataSource {
+    let todos: [TodoItem]
+    
+    init(_ todos: [TodoItem] = []) {
+        self.todos = todos
+    }
+    
+    func getAllTodos(callback: (Result<[TodoItem], Error>) -> Void) {
+        callback(.success(todos))
+    }
+}
+
+class FailureTodosDataSourceMock: TodosDataSource {
+    let error: Error
+    
+    init(_ error: Error) {
+        self.error = error
+    }
+    
+    func getAllTodos(callback: (Result<[TodoItem], Error>) -> Void) {
+        callback(.failure(error))
+    }
 }

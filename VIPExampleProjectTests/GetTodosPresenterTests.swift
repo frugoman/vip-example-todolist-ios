@@ -7,27 +7,42 @@
 //
 
 import XCTest
+@testable import VIPExampleProject
+
+class TodosListViewMock: TodosListView {
+    var list: [TodoItem]?
+    var error: String?
+    
+    func show(todos: [TodoItem]) {
+        list = todos
+    }
+    
+    func show(errorMessage message: String) {
+        error = message
+    }
+}
 
 class GetTodosPresenterTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testShowTodos() {
+        let todos = [TodoItem(title: "Title")]
+        let view = TodosListViewMock()
+        let sut = TodosListPresenter()
+        sut.view = view
+        sut.todosLoaded(todos: todos)
+        
+        XCTAssertEqual(view.list, todos)
+        XCTAssertNil(view.error)
     }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testWhenErrorThenShowErrorMessage() {
+        let error = NSError(domain: "Domain", code: 1, userInfo: nil)
+        let view = TodosListViewMock()
+        let sut = TodosListPresenter()
+        sut.view = view
+        sut.todosLoadFailed(withError: error)
+        
+        XCTAssertNil(view.list)
+        XCTAssertEqual(view.error, "An error occured loading TODOs")
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
