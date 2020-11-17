@@ -8,28 +8,42 @@
 
 import UIKit
 
-class AddTodoViewController: UIAlertController {
+class AddTodoViewController: UIViewController {
     
-    private var interactor: AddTodoInteractorInput!
+    private let interactor: AddTodoInteractorInput
+    private let todoTitleField = UITextField()
+    private let confirmButton = UIButton()
     
-    convenience init(interactor: AddTodoInteractorInput) {
-        self.init(title: "Add Todo", message: nil, preferredStyle: .alert)
+    init(interactor: AddTodoInteractorInput) {
         self.interactor = interactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        title = "Add Todo"
+        view.addSubview(todoTitleField)
+        view.addSubview(confirmButton)
+        todoTitleField.placeholder = "Eg: Go Shopping"
+        todoTitleField.autoPinEdge(toSuperviewSafeArea: .top, withInset: 20)
+        todoTitleField.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
+        todoTitleField.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+        todoTitleField.becomeFirstResponder()
         
-        addTextField(configurationHandler: nil)
-        addAction(.init(title: "Add", style: .default, handler: { [interactor, textFields] (_) in
-            guard let todoTitle = textFields!.first!.text, !todoTitle.isEmpty else {
-                return
-            }
-            
-            interactor?.add(todo: TodoItem(title: todoTitle))
-            }))
-        addAction(.init(title: "Cancel", style: .cancel, handler: { [interactor] (_) in
-             interactor?.cancel()
-        }))
+        navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapAddButton)), animated: false)
+    }
+    
+    @objc private func didTapAddButton() {
+        guard
+            let todoTitle = todoTitleField.text,
+            !todoTitle.isEmpty
+        else { return }
+        interactor.add(todoWithTitle: todoTitle)
+        dismiss(animated: true, completion: nil)
     }
 }

@@ -6,17 +6,23 @@
 //  Copyright © 2020 Nicolas Frugoni. All rights reserved.
 //
 
-protocol TodosListView {
+protocol TodosListView: class {
     func show(todos: [TodoItem])
+    
+    func showEmptyState()
     
     func show(errorMessage message: String)
 }
 
-class TodosListPresenter: TodosListInteractorDelegate {
+class TodosListPresenter: GetTodosListInteractorOutput {
     
-    var view: TodosListView?
+    weak var view: TodosListView?
     
     func todosLoaded(todos: [TodoItem]) {
+        guard todos.count > 0 else {
+            view?.showEmptyState()
+            return
+        }
         view?.show(todos: todos)
     }
     
