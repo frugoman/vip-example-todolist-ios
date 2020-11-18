@@ -9,38 +9,33 @@
 import XCTest
 @testable import VIPExampleProject
 
-class TodosListViewControllerDelegateMock: TodosListViewControllerDelegate {
+class GetTodosListInteractorInputMock: GetTodosListInteractorInput {
    
-    var didCallTappAddTodo = false
-    var viewDidDisplay = false
+    var didCallGetTodos = false
     
-    func viewDisplayed() {
-        viewDidDisplay = true
-    }
-    
-    func didTapAddTodo() {
-        didCallTappAddTodo = true
+    func getTodos() {
+        didCallGetTodos = true
     }
 }
 
-class GetTodosUseCaseInputMock: GetTodosUseCaseInput {
-    var didCallLoad = false
+class TodosListRouterInputMock: TodosListRouterInput {
     
-    func loadTodos() {
-        didCallLoad = true
+    var didRouteTo: TodosListRouterScreens?
+    
+    func route(to screen: TodosListRouterScreens) {
+        didRouteTo = screen
     }
 }
 
 class TodosListViewControllerTest: XCTestCase {
 
     func testViewLoadTodos() {
-        let delegate = TodosListViewControllerDelegateMock()
-        let useCase = GetTodosUseCaseInputMock()
-        let sut = ViewController(getTodosUseCase: useCase)
-        sut.delegate = delegate
+        let interactor = GetTodosListInteractorInputMock()
+        let router = TodosListRouterInputMock()
+        let sut = TodosListViewController(interactor: interactor, router: router)
         sut.viewDidLoad()
-        XCTAssertTrue(delegate.viewDidDisplay)
-        XCTAssertTrue(useCase.didCallLoad)
+        XCTAssertTrue(interactor.didCallGetTodos)
+        XCTAssertNil(router.didRouteTo)
     }
 
 }

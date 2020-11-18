@@ -12,6 +12,11 @@ import XCTest
 class TodosListViewMock: TodosListView {
     var list: [TodoItem]?
     var error: String?
+    var didShowEmptyState = false
+    
+    func showEmptyState() {
+        didShowEmptyState = true
+    }
     
     func show(todos: [TodoItem]) {
         list = todos
@@ -31,6 +36,7 @@ class GetTodosPresenterTests: XCTestCase {
         sut.view = view
         sut.todosLoaded(todos: todos)
         
+        XCTAssertFalse(view.didShowEmptyState)
         XCTAssertEqual(view.list, todos)
         XCTAssertNil(view.error)
     }
@@ -42,6 +48,7 @@ class GetTodosPresenterTests: XCTestCase {
         sut.view = view
         sut.todosLoadFailed(withError: error)
         
+        XCTAssertFalse(view.didShowEmptyState)
         XCTAssertNil(view.list)
         XCTAssertEqual(view.error, "An error occured loading TODOs")
     }

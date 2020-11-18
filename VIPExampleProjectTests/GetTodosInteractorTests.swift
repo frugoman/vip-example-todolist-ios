@@ -13,10 +13,11 @@ class GetTodosInteractorTests: XCTestCase {
 
     func testGetTodosSuccessThenCallLoaded() throws {
         let todos = [TodoItem(title: "Title")]
-        let dataSource = SuccessTodosDataSourceMock(todos)
+        let dataSource = TodosDataSourceMock()
+        dataSource.todos = todos
         let delegate = GetTodosDelegateMock()
-        let sut = GetTodosUseCase(delegate: delegate, dataSource: dataSource)
-        sut.loadTodos()
+        let sut = GetTodosListInteractor(output: delegate, dataSource: dataSource)
+        sut.getTodos()
         
         XCTAssertEqual(try XCTUnwrap(delegate.loaded).count, todos.count)
         XCTAssertEqual(try XCTUnwrap(delegate.loaded)[0], todos[0])
@@ -25,17 +26,18 @@ class GetTodosInteractorTests: XCTestCase {
     
     func testGetTodosFailedThenCallError() throws {
         let error = NSError(domain: "", code: 1, userInfo: nil)
-        let dataSource = FailureTodosDataSourceMock(error)
+        let dataSource = TodosDataSourceMock()
+        dataSource.error = error
         let delegate = GetTodosDelegateMock()
-        let sut = GetTodosUseCase(delegate: delegate, dataSource: dataSource)
-        sut.loadTodos()
+        let sut = GetTodosListInteractor(output: delegate, dataSource: dataSource)
+        sut.getTodos()
         
         XCTAssertNil(delegate.loaded)
         XCTAssertNotNil(delegate.error)
     }
 }
 
-class GetTodosDelegateMock: GetTodosDelegate {
+class GetTodosDelegateMock: GetTodosListInteractorOutput {
     
     var loaded: [TodoItem]?
     var error: Error?
@@ -46,29 +48,5 @@ class GetTodosDelegateMock: GetTodosDelegate {
     
     func todosLoadFailed(withError error: Error) {
         self.error = error
-    }
-}
-
-class SuccessTodosDataSourceMock: TodosDataSource {
-    let todos: [TodoItem]
-    
-    init(_ todos: [TodoItem] = []) {
-        self.todos = todos
-    }
-    
-    func getAllTodos(callback: (Result<[TodoItem], Error>) -> Void) {
-        callback(.success(todos))
-    }
-}
-
-class FailureTodosDataSourceMock: TodosDataSource {
-    let error: Error
-    
-    init(_ error: Error) {
-        self.error = error
-    }
-    
-    func getAllTodos(callback: (Result<[TodoItem], Error>) -> Void) {
-        callback(.failure(error))
     }
 }

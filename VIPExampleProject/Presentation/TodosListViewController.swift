@@ -11,14 +11,14 @@ import PureLayout
 
 class TodosListViewController: UIViewController {
 
-    private let interactor: GetTodosListInteractor
+    private let interactor: GetTodosListInteractorInput
     private let router: TodosListRouterInput
     
     private let emptyStateLabel = UILabel()
     private let tableView = UITableView()
     private var todos = [TodoItem]()
     
-    init(interactor: GetTodosListInteractor, router: TodosListRouterInput) {
+    init(interactor: GetTodosListInteractorInput, router: TodosListRouterInput) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)

@@ -33,6 +33,7 @@
 		9C7C861325267BFF00CE8B6B /* TodosListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C861225267BFF00CE8B6B /* TodosListRouter.swift */; };
 		9C7C861925267C3A00CE8B6B /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C861825267C3A00CE8B6B /* AddTodoViewController.swift */; };
 		9C7C861D25267FB300CE8B6B /* AddTodoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C861C25267FB300CE8B6B /* AddTodoInteractor.swift */; };
+		9CC85CC2256578D900EC96C0 /* TodosDatasourceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC85CC1256578D800EC96C0 /* TodosDatasourceMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		9C7C861225267BFF00CE8B6B /* TodosListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosListRouter.swift; sourceTree = "<group>"; };
 		9C7C861825267C3A00CE8B6B /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
 		9C7C861C25267FB300CE8B6B /* AddTodoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoInteractor.swift; sourceTree = "<group>"; };
+		9CC85CC1256578D800EC96C0 /* TodosDatasourceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosDatasourceMock.swift; sourceTree = "<group>"; };
 		BF5119A7236BF19E6200C40F /* Pods-VIPExampleProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VIPExampleProjectTests.debug.xcconfig"; path = "Target Support Files/Pods-VIPExampleProjectTests/Pods-VIPExampleProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DC1AF8624505F9E592CD0C24 /* Pods-VIPExampleProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VIPExampleProjectTests.release.xcconfig"; path = "Target Support Files/Pods-VIPExampleProjectTests/Pods-VIPExampleProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		F7C9BAFFA33E695F0BB203E8 /* Pods-VIPExampleProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VIPExampleProject.debug.xcconfig"; path = "Target Support Files/Pods-VIPExampleProject/Pods-VIPExampleProject.debug.xcconfig"; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 		9C7C85DB251E5C5000CE8B6B /* VIPExampleProjectTests */ = {
 			isa = PBXGroup;
 			children = (
+				9CC85CC1256578D800EC96C0 /* TodosDatasourceMock.swift */,
 				9C7C85E7251E5D7100CE8B6B /* GetTodosInteractorTests.swift */,
 				9C7C85DE251E5C5000CE8B6B /* Info.plist */,
 				9C7C85F2251E7AE700CE8B6B /* GetTodosPresenterTests.swift */,
@@ -481,6 +484,7 @@
 			files = (
 				9C7C85E8251E5D7100CE8B6B /* GetTodosInteractorTests.swift in Sources */,
 				9C7C85F3251E7AE700CE8B6B /* GetTodosPresenterTests.swift in Sources */,
+				9CC85CC2256578D900EC96C0 /* TodosDatasourceMock.swift in Sources */,
 				9C7C85F7251E802300CE8B6B /* TodosListViewControllerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

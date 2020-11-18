@@ -14,7 +14,7 @@ class iOSTodosListFactory {
         let presenter = TodosListPresenter()
         let inMemory = UserDefaultsTodosDataSource()
         let router = TodosListRouter()
-        let interactor = GetTodosListInteractor(delegate: presenter, output: inMemory)
+        let interactor = GetTodosListInteractor(output: presenter, dataSource: inMemory)
         let list = TodosListViewController(interactor: interactor, router: router)
         router.rootViewController = list
         presenter.view = list

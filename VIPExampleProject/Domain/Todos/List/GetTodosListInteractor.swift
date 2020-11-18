@@ -23,9 +23,9 @@ class GetTodosListInteractor: GetTodosListInteractorInput {
     private let output: GetTodosListInteractorOutput
     private let dataSource: TodosDataSource
     
-    init(delegate: GetTodosListInteractorOutput, output: TodosDataSource) {
-        self.output = delegate
-        self.dataSource = output
+    init(output: GetTodosListInteractorOutput, dataSource: TodosDataSource) {
+        self.output = output
+        self.dataSource = dataSource
     }
     
     func getTodos() {
